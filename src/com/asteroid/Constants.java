@@ -42,7 +42,8 @@ public interface Constants {
   double SHIP_SPEED_STEP = 15.0 / FPS;
   double MAX_SHIP_SPEED  = 1.25 * MAX_ROCK_SPEED;
 
-  // int FIRE_DELAY = 50; // Minimum number of milliseconds required between photon shots.
+  // Minimum number of milliseconds required between photon shots.
+  // int FIRE_DELAY = 50;
 
   // Probability of flying saucer firing a missile during any given frame
   // (other conditions must be met).
