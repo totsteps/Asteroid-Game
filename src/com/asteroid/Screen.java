@@ -10,6 +10,11 @@ import java.awt.event.KeyListener;
 
 import com.asteroid.objects.*;
 
+/**
+ * The screen object which displays different game objects like,
+ * Ship, Asteroids, UFO, explosions etc.
+ *
+ */
 public class Screen extends JPanel implements Runnable, KeyListener, Constants {
 
   // background stars
@@ -89,9 +94,9 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   private Thread loopThread;
 
   /**
-   * Returns Asteroid speed
+   * Returns Asteroid's speed
    *
-   * @return asteroid speed
+   * @return double - asteroid's speed
    */
   public double getAsteroidsSpeed() {
     return asteroidsSpeed;
@@ -129,10 +134,10 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Create all game objects and initialize game data and state variables.
+   * Create all game objects, initialize game data and state variables.
    */
   private void init() {
-    Dimension d = getSize();
+    Dimension dimension = getSize();
     int i;
 
     // display copyright information
@@ -143,15 +148,16 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
     setFocusable(true);
 
     // save the screen size
-    AsteroidSprite.setWidth(d.width);
-    AsteroidSprite.setHeight(d.height);
+    AsteroidSprite.setWidth(dimension.width);
+    AsteroidSprite.setHeight(dimension.height);
 
     // generate the starry background
     numStars = AsteroidSprite.getWidth() * AsteroidSprite.getHeight() / 5000;
     stars = new Star[numStars];
-    for (i = 0; i < numStars; i++)
+    for (i = 0; i < numStars; i++) { // create star objects
       stars[i] = new Star((int) (Math.random() * AsteroidSprite.getWidth()),
-          (int) (Math.random() * AsteroidSprite.getHeight()));
+        (int) (Math.random() * AsteroidSprite.getHeight()));
+    }
 
     // create shape for the ship sprite
     ship = new Ship();
@@ -198,7 +204,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Initialize Ship
+   * Initialize Ship and corresponding sounds.
    */
   private void initShip() {
     ship.init();
@@ -209,7 +215,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Stops Ship
+   * Stops Ship. If the Ship stops its sound will be stopped if playing.
    */
   private void stopShip() {
     ship.setActive(false);
@@ -222,7 +228,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Update Ship
+   * Update Ship's position on the screen.
    */
   private void updateShip() {
     double dx, dy, speed;
@@ -318,7 +324,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
 //  }
 
   /**
-   * Initialize UFO
+   * Initialize UFO and corresponding sound.
    */
   private void initUFO() {
     ufo.init();
@@ -334,7 +340,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Stop UFO
+   * Stop UFO. If the UFO stops its sound will be stopped if playing.
    */
   private void stopUFO() {
     ufo.setActive(false);
@@ -346,7 +352,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Update UFO
+   * Update UFO position on the screen.
    */
   private void updateUFO() {
     int i, d;
@@ -387,7 +393,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Initialize UFO Missile
+   * Initialize UFO Missile and corresponding sound.
    */
   private void initMissile() {
     ufo.getMissile().init();
@@ -406,7 +412,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Stop UFO Missile
+   * Stop UFO Missile. If the Missile stops its sound will be stopped if playing.
    */
   private void stopMissile() {
     ufo.getMissile().setActive(false);
@@ -417,7 +423,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Update UFO Missile
+   * Update UFO Missile position on the screen.
    */
   private void updateMissile() {
     int i;
@@ -462,6 +468,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
 
   /**
    * Guide UFO Missile towards the Ship.
+   * Missile's position is updated respective to the position of the Ship.
    */
   private void guideMissile() {
     double dx, dy, angle;
@@ -494,7 +501,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Initialize Asteroids
+   * Initialize Asteroids and corresponding sound.
    */
   private void initAsteroids() {
     for (int i = 0; i < MAX_ROCKS; i++) {
@@ -509,7 +516,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   }
 
   /**
-   * Update Asteroids
+   * Update Asteroids position on the screen.
    */
   private void updateAsteroids() {
     int i, j;
@@ -582,7 +589,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
         s = MIN_ROCK_SIDES + (int) (Math.random() * (MAX_ROCK_SIDES - MIN_ROCK_SIDES));
         for (j = 0; j < s; j ++) {
           theta = 2 * Math.PI / s * j;
-          r = (MIN_ROCK_SIZE + (int) (Math.random() * (MAX_ROCK_SIZE - MIN_ROCK_SIZE))) / 2;
+          r = (MIN_ROCK_SIZE + (int) (Math.random() * (MAX_ROCK_SIZE - MIN_ROCK_SIZE))) >> 1;
           x = (int) -Math.round(r * Math.sin(theta));
           y = (int)  Math.round(r * Math.cos(theta));
           asteroids[i].getShape().addPoint(x, y);
@@ -607,7 +614,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
   /**
    * Create sprites for explosion animation. The each individual line segment
    * of the given sprite is used to create a new sprite that will move
-   * outward  from the sprite's original position with a random rotation.
+   * outward from the sprite's original position with a random rotation.
    */
   private void explode(AsteroidSprite s) {
     int c, i, j;
@@ -615,17 +622,19 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
 
     s.render();
     c = 2;
-    if (detail || s.getSprite().npoints < 6)
-      c = 1;
+
+    if (detail || s.getSprite().npoints < 6) c = 1;
     for (i = 0; i < s.getSprite().npoints; i += c) {
       explosionIndex++;
-      if (explosionIndex >= MAX_SCRAP)
-        explosionIndex = 0;
+
+      if (explosionIndex >= MAX_SCRAP) explosionIndex = 0;
+
       explosions[explosionIndex].setActive(true);
       explosions[explosionIndex].setShape(new Polygon());
       j = i + 1;
-      if (j >= s.getSprite().npoints)
-        j -= s.getSprite().npoints;
+
+      if (j >= s.getSprite().npoints) j -= s.getSprite().npoints;
+
       cx = (s.getShape().xpoints[i] + s.getShape().xpoints[j]) / 2;
       cy = (s.getShape().ypoints[i] + s.getShape().ypoints[j]) / 2;
       explosions[explosionIndex].getShape().addPoint(
@@ -748,6 +757,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
 
       // Update the screen and set the timer for the next loop.
       repaint();
+
       try {
         startTime += DELAY;
         Thread.sleep(Math.max(0, startTime - System.currentTimeMillis()));
@@ -891,6 +901,7 @@ public class Screen extends JPanel implements Runnable, KeyListener, Constants {
     if (c == 'x' && isLoaded) endGame();
 
     // 'HOME' key: jump to web site (undocumented).
+    // Applets are no longer supported in modern browsers.
 //    if (event.getKeyCode() == KeyEvent.VK_HOME)
 //      try {
 //         getAppletContext().showDocument(new URL(copyLink)); //replace [dave]

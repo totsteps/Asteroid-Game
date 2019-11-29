@@ -5,6 +5,10 @@ import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.io.File;
 
+/**
+ * Sound object is responsible for starting and stopping sounds for different
+ * objects in this Game.
+ */
 abstract class Sound implements Constants {
 
   // Sound clips.
@@ -56,6 +60,12 @@ abstract class Sound implements Constants {
     return clipsLoaded;
   }
 
+  /**
+   * Load all the sounds from individual sound files which are stored in 'sounds'
+   * directory in the project root.
+   *
+   * @param component displayable component(Screen).
+   */
   static void loadSounds(Component component) {
     // Load all sound clips by playing and immediately stopping them. Update
     // counter and total for display.
@@ -104,6 +114,17 @@ abstract class Sound implements Constants {
     }
   }
 
+  /**
+   * Stop all the sound.
+   *
+   * @param component displayable component(Screen).
+   * @param crashSound sound when object crashes.
+   * @param explosionSound sound when an object if explodes.
+   * @param fireSound sound when an object is fired.
+   * @throws InterruptedException Thrown when a thread is waiting, sleeping,
+   *                              or otherwise occupied, and the thread is interrupted,
+   *                              either before or during the activity.
+   */
   private static void stopSound(Component component, Clip crashSound, Clip explosionSound, Clip fireSound)
       throws InterruptedException
   {
