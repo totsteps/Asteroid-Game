@@ -2,8 +2,11 @@ package com.asteroid.objects;
 
 import com.asteroid.Constants;
 
+/**
+ * UFO object.
+ */
 public class UFO extends AsteroidSprite implements Constants {
-
+  // UFO missile
   private Missile missile;
 
   public UFO() {
@@ -21,6 +24,11 @@ public class UFO extends AsteroidSprite implements Constants {
     missile = new Missile();
   }
 
+  /**
+   * Returns the UFO missile.
+   *
+   * @return missile object.
+   */
   public Missile getMissile() {
     return missile;
   }
@@ -30,7 +38,7 @@ public class UFO extends AsteroidSprite implements Constants {
 
     // Randomly set flying saucer at left or right edge of the screen.
     this.setActive(true);
-    this.setX(-AsteroidSprite.getWidth() / 2);
+    this.setX(-AsteroidSprite.getWidth() >> 1);
     this.setY(Math.random() * 2 * AsteroidSprite.getHeight() - AsteroidSprite.getWidth());
 
     angle = Math.random() * Math.PI / 4 - Math.PI / 2;
@@ -40,7 +48,7 @@ public class UFO extends AsteroidSprite implements Constants {
     this.setDeltaY(speed *  Math.cos(angle));
 
     if (Math.random() < 0.5) {
-      this.setX(AsteroidSprite.getWidth() / 2);
+      this.setX(AsteroidSprite.getWidth() >> 1);
       this.setDeltaX(-this.getDeltaX());
     }
 

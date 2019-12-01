@@ -259,7 +259,7 @@ public abstract class AsteroidSprite {
  }
 
   /**
-   * This method renders(draws) an object on the screen.
+   * Render(draw) an object on the screen.
    * An object has sprites which can be adjusted to give
    * whatever shape to an object.
    */
@@ -275,7 +275,7 @@ public abstract class AsteroidSprite {
  }
 
   /**
-   * This function checks whether an object is colliding with this object when
+   * Check whether an object is colliding with this object when
    * on the screen.
    *
    * @param asteroidSprite sprite(another object).

@@ -5,6 +5,11 @@ import java.awt.*;
 import com.asteroid.Constants;
 import com.asteroid.Screen;
 
+/**
+ * Asteroid object.
+ * Asteroids appear at random positions on the screen having random motion
+ * and rotation angle
+ */
 public class Asteroid extends AsteroidSprite implements Constants {
 
   public void init(Screen screen) {
@@ -23,6 +28,7 @@ public class Asteroid extends AsteroidSprite implements Constants {
       y = (int)  Math.round(r * Math.cos(theta));
       this.getShape().addPoint(x, y);
     }
+
     this.setActive(true);
     this.setAngle(0.0);
     this.setDeltaAngle(Math.random() * 2 * MAX_ROCK_SPIN - MAX_ROCK_SPIN);
@@ -30,24 +36,21 @@ public class Asteroid extends AsteroidSprite implements Constants {
     // Place the asteroid at one edge of the screen.
     if (Math.random() < 0.5) {
       this.setX(-AsteroidSprite.getWidth() >> 1);
-      if (Math.random() < 0.5)
-        this.setX(AsteroidSprite.getWidth() >> 1);
+      if (Math.random() < 0.5) this.setX(AsteroidSprite.getWidth() >> 1);
       this.setY(Math.random() * AsteroidSprite.getHeight());
     }
     else {
       this.setX(Math.random() * AsteroidSprite.getWidth());
       this.setY(-AsteroidSprite.getHeight() >> 1);
-      if (Math.random() < 0.5)
-        this.setY(AsteroidSprite.getHeight() >> 1);
+      if (Math.random() < 0.5) this.setY(AsteroidSprite.getHeight() >> 1);
     }
 
     // Set a random motion for the asteroid.
     this.setDeltaX(Math.random() * screen.getAsteroidsSpeed());
-    if (Math.random() < 0.5)
-      this.setDeltaX(-this.getDeltaX());
+    if (Math.random() < 0.5) this.setDeltaX(-this.getDeltaX());
+
     this.setDeltaY(Math.random() * screen.getAsteroidsSpeed());
-    if (Math.random() < 0.5)
-      this.setDeltaY(-this.getDeltaY());
+    if (Math.random() < 0.5) this.setDeltaY(-this.getDeltaY());
 
     this.render();
   }

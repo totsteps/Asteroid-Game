@@ -1,5 +1,8 @@
 package com.asteroid.objects;
 
+/**
+ * Bullet object that is fired by the Ship.
+ */
 public class Bullet extends AsteroidSprite {
 
   Bullet() {
